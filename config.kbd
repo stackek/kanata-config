@@ -1,0 +1,139 @@
+#|
+This minimal config changes Caps Lock to act as Caps Lock on quick tap, but
+if held, it will act as Left Ctrl. It also changes the backtick/grave key to
+act as backtick/grave on quick tap, but change ijkl keys to arrow keys on hold.
+
+This text between the two pipe+octothorpe sequences is a multi-line comment.
+|#
+
+;; Text after double-semicolons are single-line comments.
+
+#|
+One defcfg entry may be added, which is used for configuration key-pairs. These
+configurations change kanata's behaviour at a more global level than the other
+configuration entries.
+|#
+
+(defcfg
+  #|
+  This configuration will process all keys pressed inside of kanata, even if
+  they are not mapped in defsrc. This is so that certain actions can activate
+  at the right time for certain input sequences. By default, unmapped keys are
+  not processed through kanata due to a Windows issue related to AltGr. If you
+  use AltGr in your keyboard, you will likely want to follow the simple.kbd
+  file while unmapping lctl and ralt from defsrc.
+  |#
+
+  process-unmapped-keys yes
+  linux-dev-names-exclude (
+    "ETPS/2 Elantech TrackPoint"
+    "TPPS/2 Elan TrackPoint"
+  )
+  
+)
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc del
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+(deflayermap (default)
+  a @Ma
+  s @As
+  d @Sd
+  f @Cf
+
+  j @Cj
+  k @Sk
+  l @Al
+  ; @M;
+
+  caps esc
+  esc caps
+
+  lsft @NP
+  rsft @Arr
+  lmet @Fun
+  lalt ralt
+  f10 @Tggl2Blank
+
+  lft XX
+  down XX
+  up XX
+  rght XX
+)
+
+(deflayermap (blank)
+  _ _
+  f10 @Tggl2HRM
+)
+
+(deflayermap (arrows)
+  w bspc
+  e home
+  r end
+
+  a lft
+  s down
+  d up
+  f rght
+
+  q del
+  c pgdn
+  v pgup
+
+  j lctl
+  k lsft
+  h lalt
+)
+
+(deflayermap (numpad)
+  m kp1
+  , kp2
+  . kp3
+  j kp4
+  k kp5
+  l kp6
+  u kp7
+  i kp8
+  o kp9
+  ; kp0
+  f nlk
+)
+
+(deflayermap (funpad)
+  m f1
+  , f2
+  . f3
+  j f4
+  k f5
+  l f6
+  u f7
+  i f8
+  o f9
+  ; f10
+  p f11
+  / f12
+)
+
+(defalias
+  Ma (tap-hold 0 200 a lctl)
+  As (tap-hold 0 200 s lsft)
+  Sd (tap-hold 0 200 d lmet)
+  Cf (tap-hold 0 200 f lalt)
+
+  Cj (tap-hold 0 200 j lalt)
+  Sk (tap-hold 0 200 k lmet)
+  Al (tap-hold 0 200 l lsft)
+  M; (tap-hold 0 200 ; lctl)
+
+  Arr (layer-while-held arrows)
+  NP (layer-while-held numpad)
+  Fun (layer-while-held funpad)
+
+  Tggl2Blank (tap-hold 500 500 f10 (layer-switch blank))
+  Tggl2HRM   (tap-hold 500 500 f10 (layer-switch default))
+)
