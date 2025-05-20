@@ -59,11 +59,6 @@ configuration entries.
   lmet @Fun
   lalt ralt
   f10 @Tggl2Blank
-
-  lft XX
-  down XX
-  up XX
-  rght XX
 )
 
 (deflayermap (blank)
